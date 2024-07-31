@@ -30,4 +30,5 @@ public class Service {
     
     @Column(nullable = false)
     private Float price;
+    
 }
