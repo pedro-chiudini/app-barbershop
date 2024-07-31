@@ -1,6 +1,6 @@
 package com.pedrochiudini.app_barbershop.modelDomain;
 
-import java.time.LocalDate;
+import java.util.Date;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -34,7 +34,10 @@ public class Scheduling {
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    private LocalDate date;
+    private Date date;
+
+    @Column(nullable = false)
+    private String time;
 
     @Column(nullable = false, precision = 6, scale = 2)
     private Float price;
