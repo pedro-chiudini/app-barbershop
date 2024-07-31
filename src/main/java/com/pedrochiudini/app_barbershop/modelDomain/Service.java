@@ -28,7 +28,7 @@ public class Service {
     @Column(length = 15, nullable = false)
     private String name;
     
-    @Column(nullable = false)
+    @Column(nullable = false, precision = 6, scale = 2)
     private Float price;
     
 }
