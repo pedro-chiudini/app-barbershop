@@ -1,4 +1,4 @@
-CREATE TABLE tb_barbers (
+CREATE TABLE tb_clients (
     id BIGINT NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
     telephone BIGINT NOT NULL,
