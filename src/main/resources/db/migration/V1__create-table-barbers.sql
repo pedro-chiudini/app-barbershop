@@ -1,0 +1,7 @@
+CREATE TABLE tb_barbers (
+    id BIGINT NOT NULL PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    telephone BIGINT NOT NULL,
+    cpf VARCHAR(14) UNIQUE NOT NULL,
+    email VARCHAR(255) NOT NULL
+);
