@@ -1,5 +1,7 @@
 package com.pedrochiudini.app_barbershop.modelDomain;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,6 +31,6 @@ public class Service {
     private String name;
     
     @Column(nullable = false, precision = 6, scale = 2)
-    private Float price;
+    private BigDecimal price;
     
 }

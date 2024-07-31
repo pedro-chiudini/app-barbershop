@@ -1,5 +1,6 @@
 package com.pedrochiudini.app_barbershop.modelDomain;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import com.pedrochiudini.app_barbershop.util.StatusSchedules;
@@ -44,7 +45,7 @@ public class Scheduling {
     private String time;
 
     @Column(nullable = false, precision = 6, scale = 2)
-    private Float price;
+    private BigDecimal price;
 
     @Enumerated(EnumType.STRING)
     private StatusSchedules status;
