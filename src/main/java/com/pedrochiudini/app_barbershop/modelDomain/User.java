@@ -18,7 +18,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(of = "id")
 public abstract class User {
-    
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,5 +28,10 @@ public abstract class User {
     
     @Column(length = 11, nullable = false)
     private Integer telephone;
+
+    public User(String name, Integer telephone) {
+        this.name = name;
+        this.telephone = telephone;
+    }
 
 }

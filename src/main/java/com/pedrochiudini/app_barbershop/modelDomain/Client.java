@@ -36,6 +36,12 @@ public class Client extends User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
+    public Client(String name, String username, String password, Integer telephone) {
+        super(name, telephone);
+        this.username = username;
+        this.password = password;
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         if (this.role == UserRole.ADMIN) return List.of(new SimpleGrantedAuthority("ROLE_ADMIN"), new SimpleGrantedAuthority("ROLE_USER"));
