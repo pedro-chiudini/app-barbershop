@@ -7,6 +7,9 @@ import java.time.ZoneOffset;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.exceptions.JWTCreationException;
 import com.pedrochiudini.app_barbershop.modelDomain.Client;
 
 @Service
@@ -20,7 +23,7 @@ public class TokenService {
             Algorithm algorithm = Algorithm.HMAC256(secret);
             String token = JWT.create()
                     .withIssuer("auth-api")
-                    .withSubject(user.getUsername())
+                    .withSubject(client.getUsername())
                     .withExpiresAt(getExpirantionDate())
                     .sign(algorithm);
             return token;
