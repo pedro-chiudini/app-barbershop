@@ -3,6 +3,7 @@ package com.pedrochiudini.app_barbershop.modelDomain;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.util.StatusSchedules;
 
 import jakarta.persistence.Column;
@@ -61,5 +62,15 @@ public class Scheduling {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "service_id")
     private Service service;
+
+    public Scheduling(SchedulingRequestDTO data) {
+        this.date = data.date();
+        this.time = data.time();
+        this.price = data.price();
+        this.status = data.status();
+        this.barber = data.barber();
+        this.client = data.client();
+        this.service = data.service();
+    }
 
 }

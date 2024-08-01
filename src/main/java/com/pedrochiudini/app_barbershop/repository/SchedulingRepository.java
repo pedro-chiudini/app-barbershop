@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 
 public interface SchedulingRepository extends JpaRepository<Scheduling, Long> {
