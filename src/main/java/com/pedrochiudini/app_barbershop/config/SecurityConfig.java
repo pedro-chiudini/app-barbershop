@@ -37,8 +37,8 @@ public class SecurityConfig {
                         .requestMatchers(HttpMethod.POST, "/c/login").permitAll()
                         .requestMatchers(HttpMethod.POST, "/c/register").permitAll()
                         .requestMatchers(HttpMethod.POST, "/c/verify-token").permitAll()
-                        .requestMatchers(HttpMethod.POST, "/c/barbers").hasRole("ADMIN")
-                        .requestMatchers(HttpMethod.POST, "/c/services").hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.POST, "/c/barbers").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/c/services").permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
