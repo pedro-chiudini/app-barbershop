@@ -36,7 +36,7 @@ public class ClientController {
             return ResponseEntity.ok(responseDTO);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.badRequest().body(null);
+            return ResponseEntity.notFound().build();
         }
     }
 
