@@ -40,6 +40,7 @@ public class Client extends User implements UserDetails{
         super(name, telephone);
         this.username = username;
         this.password = password;
+        this.role = UserRole.USER;
     }
 
     @Override
