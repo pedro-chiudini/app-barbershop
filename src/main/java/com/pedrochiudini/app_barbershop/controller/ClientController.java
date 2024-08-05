@@ -35,7 +35,7 @@ public class ClientController {
             LoginResponseDTO responseDTO = clientService.login(data);
             return ResponseEntity.ok(responseDTO);
         } catch (Exception e) {
-            System.out.println(e.toString());
+            e.printStackTrace();
             return ResponseEntity.badRequest().body(null);
         }
     }
