@@ -9,6 +9,6 @@ import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 
 public interface SchedulingRepository extends JpaRepository<Scheduling, Long> {
     
-    List<SchedulingResponseDTO> findAllByClientId(String clientId);
+    List<SchedulingResponseDTO> findAllByClientId(Long clientId);
 
 }
