@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pedrochiudini.app_barbershop.dto.BarberRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.BarberResponseDTO;
 import com.pedrochiudini.app_barbershop.modelDomain.Barber;
 import com.pedrochiudini.app_barbershop.repository.BarberRepository;
@@ -35,9 +36,12 @@ public class BarberController {
 
     @PostMapping
     private void saveBarber(@RequestBody BarberRequestDTO data) {
-        Barber barberData = new Barber(data);
-        barberRepository.save(barberData);
-        return;
+        try {
+            Barber barberData = new Barber(data);
+            barberRepository.save(barberData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
