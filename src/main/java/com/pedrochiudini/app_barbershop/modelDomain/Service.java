@@ -2,6 +2,8 @@ package com.pedrochiudini.app_barbershop.modelDomain;
 
 import java.math.BigDecimal;
 
+import com.pedrochiudini.app_barbershop.dto.ServiceRequestDTO;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -32,5 +34,10 @@ public class Service {
     
     @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal price;
+    
+    public Service(ServiceRequestDTO data) {
+        this.name = data.name();
+        this.price = data.price();
+    }
     
 }

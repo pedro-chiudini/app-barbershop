@@ -10,7 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pedrochiudini.app_barbershop.dto.ServiceRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.ServiceResponseDTO;
+import com.pedrochiudini.app_barbershop.modelDomain.Service;
 import com.pedrochiudini.app_barbershop.repository.ServiceRepository;
 
 @RestController
@@ -32,10 +34,13 @@ public class ServiceController {
     }
 
     @PostMapping
-    private void saveBarber(@RequestBody ServiceRequestDTO data) {
-        Service serviceData = new Service(data);
-        serviceRepository.save(serviceData);
-        return;
+    private void saveService(@RequestBody ServiceRequestDTO data) {
+        try {
+            Service serviceData = new Service(data);
+            serviceRepository.save(serviceData);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 }
