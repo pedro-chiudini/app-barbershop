@@ -10,10 +10,9 @@ import org.springframework.stereotype.Service;
 import com.pedrochiudini.app_barbershop.dto.LoginDTO;
 import com.pedrochiudini.app_barbershop.dto.LoginResponseDTO;
 import com.pedrochiudini.app_barbershop.dto.RegisterDTO;
+import com.pedrochiudini.app_barbershop.exception.InvalidCredentialsException;
 import com.pedrochiudini.app_barbershop.modelDomain.Client;
 import com.pedrochiudini.app_barbershop.repository.ClientRepository;
-
-import jakarta.el.ELException;
 
 @Service
 public class ClientService {
@@ -49,7 +48,7 @@ public class ClientService {
 
         return new LoginResponseDTO(token);
         } catch (BadCredentialsException e) {
-            throw new ELException("Invalid username or password", e);
+            throw new InvalidCredentialsException("Invalid username or password.", e);
         }
     }
 
