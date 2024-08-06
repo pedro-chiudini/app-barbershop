@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pedrochiudini.app_barbershop.service.TokenService;
 
 @RestController
-@RequestMapping("/c/verify-token")
+@RequestMapping("/api/tokens/verify-token")
 public class TokenController {
 
     @Autowired

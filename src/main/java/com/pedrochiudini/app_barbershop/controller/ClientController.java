@@ -13,7 +13,7 @@ import com.pedrochiudini.app_barbershop.dto.RegisterDTO;
 import com.pedrochiudini.app_barbershop.service.ClientService;
 
 @RestController
-@RequestMapping("/c")
+@RequestMapping("/api/clients")
 public class ClientController {
 
     @Autowired

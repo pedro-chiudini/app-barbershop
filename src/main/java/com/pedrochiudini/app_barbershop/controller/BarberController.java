@@ -16,7 +16,7 @@ import com.pedrochiudini.app_barbershop.modelDomain.Barber;
 import com.pedrochiudini.app_barbershop.repository.BarberRepository;
 
 @RestController
-@RequestMapping("/c/barbers")
+@RequestMapping("/api/barbers")
 public class BarberController {
 
     @Autowired
