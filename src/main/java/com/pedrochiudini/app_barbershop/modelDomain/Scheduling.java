@@ -66,7 +66,6 @@ public class Scheduling {
     public Scheduling(SchedulingRequestDTO data) {
         this.date = data.date();
         this.time = data.time();
-        this.price = data.price();
         this.status = data.status();
         this.barber = data.barber();
         this.client = data.client();

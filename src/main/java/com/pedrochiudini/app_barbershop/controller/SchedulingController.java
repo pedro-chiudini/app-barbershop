@@ -14,15 +14,20 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
+import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
 import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 import com.pedrochiudini.app_barbershop.repository.SchedulingRepository;
+import com.pedrochiudini.app_barbershop.service.SchedulingService;
 
 @RestController
-@RequestMapping("/c/schedules")
+@RequestMapping("/api/schedules")
 public class SchedulingController {
     
     @Autowired
     private SchedulingRepository schedulingRepository;
+
+    @Autowired
+    private SchedulingService schedulingService;
     
     @GetMapping
     public ResponseEntity<List<SchedulingResponseDTO>> getAll() {
@@ -47,14 +52,14 @@ public class SchedulingController {
     }
 
     @PostMapping
-    private ResponseEntity<HttpStatus> saveScheduling(@RequestBody SchedulingRequestDTO data) {
+    private ResponseEntity<?> saveScheduling(@RequestBody SchedulingRequestDTO data) {
         try {
-            Scheduling schedulingData = new Scheduling(data);
-            schedulingRepository.save(schedulingData);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Scheduling response = schedulingService.createScheduling(data);
+            return ResponseEntity.status(HttpStatus.CREATED).body(response); 
+        } catch (ServiceNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseEntity.internalServerError().body(null);
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar agendamento");
         }
     }
 
