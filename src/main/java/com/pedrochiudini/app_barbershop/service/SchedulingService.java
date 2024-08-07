@@ -8,6 +8,7 @@ import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 import com.pedrochiudini.app_barbershop.modelDomain.Service;
 import com.pedrochiudini.app_barbershop.repository.SchedulingRepository;
 import com.pedrochiudini.app_barbershop.repository.ServiceRepository;
+import com.pedrochiudini.app_barbershop.util.StatusSchedules;
 
 @org.springframework.stereotype.Service
 public class SchedulingService {
@@ -24,6 +25,7 @@ public class SchedulingService {
 
         Scheduling scheduling = new Scheduling(data);
         scheduling.setPrice(service.getPrice());
+        scheduling.setStatus(StatusSchedules.CONFIRMADO);
 
         return schedulingRepository.save(scheduling);
     }
