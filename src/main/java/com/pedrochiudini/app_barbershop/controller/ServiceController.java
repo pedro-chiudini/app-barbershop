@@ -3,6 +3,7 @@ package com.pedrochiudini.app_barbershop.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,12 +35,14 @@ public class ServiceController {
     }
 
     @PostMapping
-    private void saveService(@RequestBody ServiceRequestDTO data) {
+    private ResponseEntity<HttpStatus> saveService(@RequestBody ServiceRequestDTO data) {
         try {
             Service serviceData = new Service(data);
             serviceRepository.save(serviceData);
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (Exception e) {
             e.printStackTrace();
+            return ResponseEntity.internalServerError().body(null);
         }
     }
 
