@@ -8,13 +8,16 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
+import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
 import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
+import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 import com.pedrochiudini.app_barbershop.repository.SchedulingRepository;
 import com.pedrochiudini.app_barbershop.service.SchedulingService;
 
@@ -58,7 +61,19 @@ public class SchedulingController {
         } catch (ServiceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Erro ao criar agendamento");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error creating schedule");
+        }
+    }
+
+    @PutMapping("/cancel/{id}")
+    public ResponseEntity<?> cancelScheduling(@PathVariable Long id) {
+        try {
+            Scheduling scheduling = schedulingService.cancelScheduling(id);
+            return ResponseEntity.ok(scheduling);
+        } catch (SchedulingNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error canceling scheduling");
         }
     }
 

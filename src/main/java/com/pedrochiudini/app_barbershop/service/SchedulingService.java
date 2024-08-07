@@ -3,6 +3,7 @@ package com.pedrochiudini.app_barbershop.service;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
+import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
 import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
 import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 import com.pedrochiudini.app_barbershop.modelDomain.Service;
@@ -26,6 +27,15 @@ public class SchedulingService {
         Scheduling scheduling = new Scheduling(data);
         scheduling.setPrice(service.getPrice());
         scheduling.setStatus(StatusSchedules.CONFIRMADO);
+
+        return schedulingRepository.save(scheduling);
+    }
+
+    public Scheduling cancelScheduling(Long schedulingId) {
+        Scheduling scheduling = schedulingRepository.findById(schedulingId)
+                .orElseThrow(() -> new SchedulingNotFoundException("Scheduling not found"));
+
+        scheduling.setStatus(StatusSchedules.CANCELADO);
 
         return schedulingRepository.save(scheduling);
     }
