@@ -1,7 +1,8 @@
 package com.pedrochiudini.app_barbershop.modelDomain;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
 
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.util.StatusSchedules;
@@ -40,10 +41,10 @@ public class Scheduling {
 
     @Column(nullable = false)
     @Temporal(TemporalType.DATE)
-    private Date date;
+    private LocalDate date;
 
     @Column(nullable = false)
-    private String time;
+    private LocalTime time;
 
     @Column(nullable = false, precision = 6, scale = 2)
     private BigDecimal price;
