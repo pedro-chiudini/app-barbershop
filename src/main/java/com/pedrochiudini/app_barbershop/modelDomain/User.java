@@ -26,7 +26,7 @@ public abstract class User {
     @Column(name = "name", length = 45, nullable = false)
     private String name;
     
-    @Column(length = 11, nullable = false)
+    @Column(length = 14, nullable = false)
     private Integer telephone;
 
     public User(String name, Integer telephone) {
