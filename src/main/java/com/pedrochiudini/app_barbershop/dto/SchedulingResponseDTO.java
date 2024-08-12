@@ -15,4 +15,5 @@ public record SchedulingResponseDTO(Long id, LocalDate date, LocalTime time, Big
     public SchedulingResponseDTO(Scheduling scheduling) {
         this(scheduling.getId(), scheduling.getDate(), scheduling.getTime(), scheduling.getPrice(), scheduling.getStatus(), scheduling.getBarber(), scheduling.getClient(), scheduling.getService());
     }
+    
 }

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pedrochiudini.app_barbershop.dto.ClientSchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
@@ -43,9 +44,9 @@ public class SchedulingController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<List<SchedulingResponseDTO>> getAllClientByID(@PathVariable Long id) {
+    public ResponseEntity<List<ClientSchedulingResponseDTO>> getAllClientByID(@PathVariable Long id) {
         try {
-            List<SchedulingResponseDTO> schedulingList = schedulingRepository.findAllByClientId(id);
+            List<ClientSchedulingResponseDTO> schedulingList = schedulingRepository.findAllByClientId(id);
             return ResponseEntity.ok(schedulingList);
         } catch (Exception e) {
             e.printStackTrace();
