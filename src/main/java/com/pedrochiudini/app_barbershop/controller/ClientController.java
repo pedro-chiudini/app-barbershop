@@ -26,10 +26,15 @@ public class ClientController {
     public ResponseEntity<String> registerClient(@RequestBody RegisterDTO data) {
         try {
             String response = clientService.register(data);
-            return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            if (response.equals("The username already exists.")) {
+                return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
+            } else if (response.equals("Registered user!")) {
+                return ResponseEntity.status(HttpStatus.CREATED).body(response);
+            }
         } catch (UsernameAlreadyExistsException e) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
         }
+        return null;
     }
 
     @PostMapping("/login")
