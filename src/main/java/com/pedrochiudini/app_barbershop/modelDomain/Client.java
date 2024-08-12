@@ -36,7 +36,7 @@ public class Client extends User implements UserDetails{
     @Enumerated(EnumType.STRING)
     private UserRole role;
 
-    public Client(String name, String username, String password, Integer telephone) {
+    public Client(String name, String username, String password, String telephone) {
         super(name, telephone);
         this.username = username;
         this.password = password;

@@ -26,10 +26,10 @@ public abstract class User {
     @Column(name = "name", length = 45, nullable = false)
     private String name;
     
-    @Column(length = 14, nullable = false)
-    private Integer telephone;
+    @Column(length = 15, nullable = false)
+    private String telephone;
 
-    public User(String name, Integer telephone) {
+    public User(String name, String telephone) {
         this.name = name;
         this.telephone = telephone;
     }
