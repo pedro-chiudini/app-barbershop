@@ -1,7 +1,7 @@
 CREATE TABLE tb_barbers (
     id BIGINT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     name VARCHAR(255) NOT NULL,
-    telephone BIGINT NOT NULL,
+    telephone VARCHAR(15) NOT NULL,
     cpf VARCHAR(14) UNIQUE NOT NULL,
     email VARCHAR(255) NOT NULL
 );
