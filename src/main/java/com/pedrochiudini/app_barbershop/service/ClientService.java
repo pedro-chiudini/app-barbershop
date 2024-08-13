@@ -46,7 +46,9 @@ public class ClientService {
 
         var token = tokenService.generateToken((Client) auth.getPrincipal());
 
-        return new LoginResponseDTO(token);
+        var client = clientRepository.findClientByUsername(data.username());
+
+        return new LoginResponseDTO(token, client);
         } catch (BadCredentialsException e) {
             throw new InvalidCredentialsException("Invalid username or password.", e);
         }

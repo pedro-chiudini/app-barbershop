@@ -1,5 +1,7 @@
 package com.pedrochiudini.app_barbershop.dto;
 
-public record LoginResponseDTO(String token) {
+import com.pedrochiudini.app_barbershop.modelDomain.Client;
+
+public record LoginResponseDTO(String token, Client client) {
     
 }
