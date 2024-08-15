@@ -1,5 +1,10 @@
 package com.pedrochiudini.app_barbershop.service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.ZoneId;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
@@ -38,6 +43,18 @@ public class SchedulingService {
         scheduling.setStatus(StatusSchedules.CANCELADO);
 
         return schedulingRepository.save(scheduling);
+    }
+
+    public void updateExpiredSchedulings() {
+        LocalDate nowDate = LocalDate.now();
+        ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
+        LocalTime nowTime = LocalTime.now(zoneId);
+        List<Scheduling> schedulings = schedulingRepository.findByStatusAndDateAndTimeBefore(StatusSchedules.CONFIRMADO, nowDate, nowTime);
+        
+        schedulings.forEach(scheduling -> {
+            scheduling.setStatus(StatusSchedules.CONCLUIDO);
+            schedulingRepository.save(scheduling);
+        });
     }
 
 }

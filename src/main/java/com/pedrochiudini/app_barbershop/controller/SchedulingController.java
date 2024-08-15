@@ -46,6 +46,7 @@ public class SchedulingController {
     @GetMapping("/{id}")
     public ResponseEntity<List<ClientSchedulingResponseDTO>> getAllClientByID(@PathVariable Long id) {
         try {
+            schedulingService.updateExpiredSchedulings();
             List<ClientSchedulingResponseDTO> schedulingList = schedulingRepository.findAllByClientId(id);
             return ResponseEntity.ok(schedulingList);
         } catch (Exception e) {
