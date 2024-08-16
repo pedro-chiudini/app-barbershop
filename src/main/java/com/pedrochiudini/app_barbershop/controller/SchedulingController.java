@@ -34,7 +34,7 @@ public class SchedulingController {
     @Autowired
     private SchedulingService schedulingService;
 
-    @GetMapping("/")
+    @GetMapping("/available-schedules")
     public List<LocalTime> getAvailableSchedules(@RequestBody LocalDate date) {
         return schedulingService.findAvailableSchedulesByDate(date);
     }
