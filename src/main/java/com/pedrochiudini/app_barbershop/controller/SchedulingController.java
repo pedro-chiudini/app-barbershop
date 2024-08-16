@@ -1,5 +1,8 @@
 package com.pedrochiudini.app_barbershop.controller;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pedrochiudini.app_barbershop.dto.TimetableResponseDTO;
@@ -27,7 +31,7 @@ import com.pedrochiudini.app_barbershop.service.SchedulingService;
 @RestController
 @RequestMapping("/api/schedules")
 public class SchedulingController {
-    
+
     @Autowired
     private SchedulingRepository schedulingRepository;
 
@@ -35,11 +39,20 @@ public class SchedulingController {
     private SchedulingService schedulingService;
 
     @GetMapping("/available-schedules")
-    public ResponseEntity<List<TimetableResponseDTO>> getAvailableSchedules(@RequestBody DateRequestDTO date) {
-        List<TimetableResponseDTO> availableSchedulesList = schedulingService.findAvailableSchedulesByDate(date);
-        return ResponseEntity.ok(availableSchedulesList);
+    public ResponseEntity<?> getAvailableSchedules(@RequestParam("date") String date) {
+        try {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            LocalDate newDate = LocalDate.parse(date, formatter);
+
+            DateRequestDTO dateRequest = new DateRequestDTO(newDate);
+
+            List<TimetableResponseDTO> availableSchedulesList = schedulingService.findAvailableSchedulesByDate(dateRequest);
+            return ResponseEntity.ok(availableSchedulesList);
+        } catch (DateTimeParseException e) {
+            return ResponseEntity.badRequest().body("Formato de data inválido.");
+        }
     }
-    
+
     @GetMapping
     public ResponseEntity<List<SchedulingResponseDTO>> getAll() {
         try {
@@ -67,7 +80,7 @@ public class SchedulingController {
     private ResponseEntity<?> saveScheduling(@RequestBody SchedulingRequestDTO data) {
         try {
             schedulingService.createScheduling(data);
-            return ResponseEntity.status(HttpStatus.CREATED).build(); 
+            return ResponseEntity.status(HttpStatus.CREATED).build();
         } catch (ServiceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
