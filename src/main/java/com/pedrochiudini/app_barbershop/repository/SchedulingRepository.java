@@ -12,7 +12,7 @@ import com.pedrochiudini.app_barbershop.util.StatusSchedules;
 
 public interface SchedulingRepository extends JpaRepository<Scheduling, Long> {
 
-    List<Scheduling> findByData(LocalDate data);
+    List<Scheduling> findAllByDate(LocalDate date);
     
     List<ClientSchedulingResponseDTO> findAllByClientId(Long clientId);
 

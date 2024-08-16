@@ -44,8 +44,8 @@ public class SchedulingService {
             LocalTime.of(17, 0)
     );
 
-    public List<LocalTime> findAvailableSchedulesByDate(LocalDate data) {
-        List<Scheduling> schedulesOnDate = schedulingRepository.findByData(data);
+    public List<LocalTime> findAvailableSchedulesByDate(LocalDate date) {
+        List<Scheduling> schedulesOnDate = schedulingRepository.findAllByDate(date);
         List<LocalTime> scheduledTimes = schedulesOnDate.stream()
                 .map(Scheduling::getTime)
                 .collect(Collectors.toList());
