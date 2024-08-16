@@ -1,5 +1,7 @@
 package com.pedrochiudini.app_barbershop.controller;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,6 +33,11 @@ public class SchedulingController {
 
     @Autowired
     private SchedulingService schedulingService;
+
+    @GetMapping
+    public List<LocalTime> getHorariosDisponiveis(@RequestBody LocalDate date) {
+        return schedulingService.findAvailableSchedulesByDate(date);
+    }
     
     @GetMapping
     public ResponseEntity<List<SchedulingResponseDTO>> getAll() {

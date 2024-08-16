@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -24,6 +25,35 @@ public class SchedulingService {
 
     @Autowired
     private ServiceRepository serviceRepository;
+
+    private final List<LocalTime> availableHours = List.of(
+            LocalTime.of(9, 0),
+            LocalTime.of(9, 30),
+            LocalTime.of(10, 0),
+            LocalTime.of(10, 30),
+            LocalTime.of(11, 0),
+            LocalTime.of(11, 30),
+            LocalTime.of(13, 0),
+            LocalTime.of(13, 30),
+            LocalTime.of(14, 0),
+            LocalTime.of(14, 30),
+            LocalTime.of(15, 0),
+            LocalTime.of(15, 30),
+            LocalTime.of(16, 0),
+            LocalTime.of(16, 30),
+            LocalTime.of(17, 0)
+    );
+
+    public List<LocalTime> findAvailableSchedulesByDate(LocalDate data) {
+        List<Scheduling> schedulesOnDate = schedulingRepository.findByData(data);
+        List<LocalTime> scheduledTimes = schedulesOnDate.stream()
+                .map(Scheduling::getTime)
+                .collect(Collectors.toList());
+
+        return availableHours.stream()
+                .filter(timetable -> !scheduledTimes.contains(timetable))
+                .collect(Collectors.toList());
+    }
 
     public Scheduling createScheduling(SchedulingRequestDTO data) {
         Service service = (Service) serviceRepository.findById(data.service().getId())
