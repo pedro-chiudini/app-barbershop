@@ -8,7 +8,9 @@ import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import com.pedrochiudini.app_barbershop.dto.DateRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
+import com.pedrochiudini.app_barbershop.dto.TimetableResponseDTO;
 import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
 import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
 import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
@@ -41,17 +43,21 @@ public class SchedulingService {
             LocalTime.of(15, 30),
             LocalTime.of(16, 0),
             LocalTime.of(16, 30),
-            LocalTime.of(17, 0)
-    );
+            LocalTime.of(17, 0));
 
-    public List<LocalTime> findAvailableSchedulesByDate(LocalDate date) {
-        List<Scheduling> schedulesOnDate = schedulingRepository.findAllByDate(date);
+    public List<TimetableResponseDTO> findAvailableSchedulesByDate(DateRequestDTO date) {
+        List<Scheduling> schedulesOnDate = schedulingRepository.findAllByDate(date.date());
+
         List<LocalTime> scheduledTimes = schedulesOnDate.stream()
                 .map(Scheduling::getTime)
                 .collect(Collectors.toList());
 
-        return availableHours.stream()
-                .filter(timetable -> !scheduledTimes.contains(timetable))
+        List<LocalTime> availableSchedules = availableHours.stream()
+                .filter(hour -> !scheduledTimes.contains(hour))
+                .collect(Collectors.toList());
+
+        return availableSchedules.stream()
+                .map(TimetableResponseDTO::new)
                 .collect(Collectors.toList());
     }
 
@@ -79,8 +85,9 @@ public class SchedulingService {
         LocalDate nowDate = LocalDate.now();
         ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
         LocalTime nowTime = LocalTime.now(zoneId);
-        List<Scheduling> schedulings = schedulingRepository.findByStatusAndDateAndTimeBefore(StatusSchedules.CONFIRMADO, nowDate, nowTime);
-        
+        List<Scheduling> schedulings = schedulingRepository.findByStatusAndDateAndTimeBefore(StatusSchedules.CONFIRMADO,
+                nowDate, nowTime);
+
         schedulings.forEach(scheduling -> {
             scheduling.setStatus(StatusSchedules.CONCLUIDO);
             schedulingRepository.save(scheduling);

@@ -1,7 +1,5 @@
 package com.pedrochiudini.app_barbershop.controller;
 
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pedrochiudini.app_barbershop.dto.TimetableResponseDTO;
 import com.pedrochiudini.app_barbershop.dto.ClientSchedulingResponseDTO;
+import com.pedrochiudini.app_barbershop.dto.DateRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
@@ -35,8 +35,9 @@ public class SchedulingController {
     private SchedulingService schedulingService;
 
     @GetMapping("/available-schedules")
-    public List<LocalTime> getAvailableSchedules(@RequestBody LocalDate date) {
-        return schedulingService.findAvailableSchedulesByDate(date);
+    public ResponseEntity<List<TimetableResponseDTO>> getAvailableSchedules(@RequestBody DateRequestDTO date) {
+        List<TimetableResponseDTO> availableSchedulesList = schedulingService.findAvailableSchedulesByDate(date);
+        return ResponseEntity.ok(availableSchedulesList);
     }
     
     @GetMapping
