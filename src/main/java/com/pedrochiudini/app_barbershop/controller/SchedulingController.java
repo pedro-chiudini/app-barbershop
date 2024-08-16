@@ -34,8 +34,8 @@ public class SchedulingController {
     @Autowired
     private SchedulingService schedulingService;
 
-    @GetMapping
-    public List<LocalTime> getHorariosDisponiveis(@RequestBody LocalDate date) {
+    @GetMapping("/")
+    public List<LocalTime> getAvailableSchedules(@RequestBody LocalDate date) {
         return schedulingService.findAvailableSchedulesByDate(date);
     }
     
