@@ -18,4 +18,6 @@ public interface SchedulingRepository extends JpaRepository<Scheduling, Long> {
 
     List<Scheduling> findByStatusAndDateAndTimeBefore(StatusSchedules status, LocalDate date, LocalTime time);
 
+    List<Scheduling> findByStatusAndDateBefore(StatusSchedules status, LocalDate date);
+    
 }

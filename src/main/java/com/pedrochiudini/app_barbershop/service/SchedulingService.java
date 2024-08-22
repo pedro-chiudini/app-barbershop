@@ -3,6 +3,7 @@ package com.pedrochiudini.app_barbershop.service;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -85,12 +86,18 @@ public class SchedulingService {
         LocalDate nowDate = LocalDate.now();
         ZoneId zoneId = ZoneId.of("America/Sao_Paulo");
         LocalTime nowTime = LocalTime.now(zoneId);
-        List<Scheduling> schedulings = schedulingRepository.findByStatusAndDateAndTimeBefore(StatusSchedules.CONFIRMADO,
-                nowDate, nowTime);
 
-        schedulings.forEach(scheduling -> {
-            scheduling.setStatus(StatusSchedules.CONCLUIDO);
-            schedulingRepository.save(scheduling);
+        List<Scheduling> previousDateSchedulings = schedulingRepository.findByStatusAndDateBefore(StatusSchedules.CONFIRMADO, nowDate);
+
+        List<Scheduling> todaySchedulings = schedulingRepository.findByStatusAndDateAndTimeBefore(StatusSchedules.CONFIRMADO, nowDate, nowTime);
+
+        List<Scheduling> allExpiredSchedulings = new ArrayList<>();
+        allExpiredSchedulings.addAll(previousDateSchedulings);
+        allExpiredSchedulings.addAll(todaySchedulings);
+
+        allExpiredSchedulings.forEach(scheduling -> {
+                scheduling.setStatus(StatusSchedules.CONCLUIDO);
+                schedulingRepository.save(scheduling);
         });
     }
 
