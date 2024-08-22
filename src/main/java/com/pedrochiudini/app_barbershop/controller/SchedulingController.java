@@ -79,8 +79,8 @@ public class SchedulingController {
     @PostMapping
     private ResponseEntity<?> saveScheduling(@RequestBody SchedulingRequestDTO data) {
         try {
-            schedulingService.createScheduling(data);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Scheduling scheduling = schedulingService.createScheduling(data);
+            return ResponseEntity.status(HttpStatus.CREATED).body(scheduling);
         } catch (ServiceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {

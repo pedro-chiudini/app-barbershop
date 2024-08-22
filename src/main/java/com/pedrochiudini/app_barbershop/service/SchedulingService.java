@@ -1,9 +1,11 @@
 package com.pedrochiudini.app_barbershop.service;
 
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -47,6 +49,12 @@ public class SchedulingService {
             LocalTime.of(17, 0));
 
     public List<TimetableResponseDTO> findAvailableSchedulesByDate(DateRequestDTO date) {
+        LocalDate requestDate = date.date();
+    
+        if (requestDate.getDayOfWeek() == DayOfWeek.SUNDAY) {
+                return Collections.emptyList();
+        }
+
         List<Scheduling> schedulesOnDate = schedulingRepository.findAllByDate(date.date());
 
         List<LocalTime> scheduledTimes = schedulesOnDate.stream()
