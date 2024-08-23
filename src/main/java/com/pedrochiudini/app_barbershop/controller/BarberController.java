@@ -1,11 +1,13 @@
 package com.pedrochiudini.app_barbershop.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -32,7 +34,22 @@ public class BarberController {
             e.printStackTrace();
             return ResponseEntity.badRequest().build();
         }
+    }
 
+    @GetMapping("/{id}")
+    public ResponseEntity<BarberResponseDTO> getBarberByID(@PathVariable Long id) {
+        try {
+            Optional<Barber> barber = barberRepository.findById(id);
+            if (barber.isPresent()) {
+                BarberResponseDTO responseDTO = new BarberResponseDTO(barber.get());
+                return ResponseEntity.ok(responseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
     }
 
     @PostMapping

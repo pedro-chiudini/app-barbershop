@@ -24,7 +24,6 @@ import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
 import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
-import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 import com.pedrochiudini.app_barbershop.repository.SchedulingRepository;
 import com.pedrochiudini.app_barbershop.service.SchedulingService;
 
@@ -46,7 +45,8 @@ public class SchedulingController {
 
             DateRequestDTO dateRequest = new DateRequestDTO(newDate);
 
-            List<TimetableResponseDTO> availableSchedulesList = schedulingService.findAvailableSchedulesByDate(dateRequest);
+            List<TimetableResponseDTO> availableSchedulesList = schedulingService
+                    .findAvailableSchedulesByDate(dateRequest);
             return ResponseEntity.ok(availableSchedulesList);
         } catch (DateTimeParseException e) {
             return ResponseEntity.badRequest().body("Formato de data inválido.");
@@ -91,10 +91,12 @@ public class SchedulingController {
     @PutMapping("/cancel/{id}")
     public ResponseEntity<?> cancelScheduling(@PathVariable Long id) {
         try {
-            Scheduling scheduling = schedulingService.cancelScheduling(id);
+            SchedulingResponseDTO scheduling = schedulingService.cancelScheduling(id);
             return ResponseEntity.ok(scheduling);
         } catch (SchedulingNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error canceling scheduling");
         }

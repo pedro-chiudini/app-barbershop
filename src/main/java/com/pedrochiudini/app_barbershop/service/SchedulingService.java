@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.pedrochiudini.app_barbershop.dto.DateRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
+import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.dto.TimetableResponseDTO;
 import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
 import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
@@ -81,13 +82,18 @@ public class SchedulingService {
         return schedulingRepository.save(scheduling);
     }
 
-    public Scheduling cancelScheduling(Long schedulingId) {
+    public SchedulingResponseDTO cancelScheduling(Long schedulingId) {
         Scheduling scheduling = schedulingRepository.findById(schedulingId)
-                .orElseThrow(() -> new SchedulingNotFoundException("Scheduling not found"));
+            .orElseThrow(() -> new SchedulingNotFoundException("Scheduling not found"));
+
+        if (scheduling.getStatus() == StatusSchedules.CONCLUIDO) {
+                throw new IllegalStateException("Completed schedules cannot be canceled");
+        }
 
         scheduling.setStatus(StatusSchedules.CANCELADO);
+        schedulingRepository.save(scheduling);
 
-        return schedulingRepository.save(scheduling);
+        return new SchedulingResponseDTO(scheduling);
     }
 
     public void updateExpiredSchedulings() {
