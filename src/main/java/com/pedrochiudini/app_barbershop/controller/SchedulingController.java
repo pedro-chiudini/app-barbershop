@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -74,6 +75,22 @@ public class SchedulingController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.notFound().build();
+        }
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<SchedulingResponseDTO> getSchedulingByID(@PathVariable Long id) {
+        try {
+            Optional<Scheduling> scheduling = schedulingRepository.findById(id);
+            if (scheduling.isPresent()) {
+                SchedulingResponseDTO responseDTO = new SchedulingResponseDTO(scheduling.get());
+                return ResponseEntity.ok(responseDTO);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
         }
     }
 
