@@ -24,6 +24,7 @@ import com.pedrochiudini.app_barbershop.dto.SchedulingRequestDTO;
 import com.pedrochiudini.app_barbershop.dto.SchedulingResponseDTO;
 import com.pedrochiudini.app_barbershop.exception.SchedulingNotFoundException;
 import com.pedrochiudini.app_barbershop.exception.ServiceNotFoundException;
+import com.pedrochiudini.app_barbershop.modelDomain.Scheduling;
 import com.pedrochiudini.app_barbershop.repository.SchedulingRepository;
 import com.pedrochiudini.app_barbershop.service.SchedulingService;
 
@@ -79,8 +80,8 @@ public class SchedulingController {
     @PostMapping
     private ResponseEntity<?> saveScheduling(@RequestBody SchedulingRequestDTO data) {
         try {
-            schedulingService.createScheduling(data);
-            return ResponseEntity.status(HttpStatus.CREATED).build();
+            Scheduling scheduling = schedulingService.createScheduling(data);
+            return ResponseEntity.status(HttpStatus.CREATED).body(scheduling.getId());
         } catch (ServiceNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         } catch (Exception e) {
